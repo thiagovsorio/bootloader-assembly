@@ -17,3 +17,17 @@ I will get at least to the point where I can run my compiled C code.
 And then, let the fun begin.
 It will be harsh, so... nice.
 
+## Examples of how to run things (Ubuntu only for now)
+For assembling for the Intel x86 architecture:
+```
+sudo apt install nasm
+sudo apt install qemu-system-x86
+```
+Then run:
+```
+nasm -f bin boot-message.asm -o boot-message.bin
+```
+For emulating "BIOS":
+```
+qemu-system-x86_64 -hda boot-message.bin
+```
