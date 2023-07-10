@@ -1,5 +1,6 @@
 # bootloader-assembly
 This repo will be a working bootloader that I am working on.
+Right now (July 10, 2023) doing the Hello World's equivalent for bootloaders.
 
 Inspired by this video: [I made an entire OS that only runs Tetris](https://youtu.be/FaILnmUYS_U)
 
