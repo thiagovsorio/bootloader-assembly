@@ -1,9 +1,18 @@
 ORG 0
 BITS 16
 
-jmp 0x7c0:start
+_start:
+    jmp short start
+    nop
+
+times 33 db 0
 
 start:
+    jmp 0x7c0:step2 ; skiping bios parameter block
+    ; so our data is not overwritten by bios
+
+
+step2:
     cli ; Clear Interrupts
     mov ax, 0x7c0
     mov ds, ax
@@ -34,6 +43,6 @@ print_char:
     int 0x10
     ret
 
-message: db 'Segments han!', 0
+message: db 'Segments han! Safe for BPB', 0
 times 510-($ - $$) db 0
 dw 0xAA55
