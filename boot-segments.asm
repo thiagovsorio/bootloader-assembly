@@ -43,6 +43,6 @@ print_char:
     int 0x10
     ret
 
-message: db 'Segments han! Safe for BPB', 0
+message: db 13,10,13,10,"Booting on my friend's computer, so hopefully it didn't catch fire",13,10, 0
 times 510-($ - $$) db 0
 dw 0xAA55
