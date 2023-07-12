@@ -5,11 +5,11 @@ _start:
     jmp short start
     nop
 
-times 33 db 0
+times 33 db 0 ; filling the future bios parameter block with zeros
 
 start:
     jmp 0x7c0:step2 ; skiping bios parameter block
-    ; so our data is not overwritten by bios
+    ; updates the code segment to 0x7c0, where our step2 starts
 
 
 step2:
@@ -23,20 +23,20 @@ step2:
     mov sp, 0x7c00
     sti ; Enables Interrupts
 
-    mov si, message
-    call print
+    mov si, message ; message is a label
+    call print ; and when you reference a label you get the address
     jmp $
 
 print:
     mov bx, 0
 .loop:
-    lodsb
+    lodsb ; loads the info on address of si to al and increment si
     cmp al, 0
     je .done
     call print_char
     jmp .loop
 .done:
-    ret
+    ret ; ret returns to subroutines and call is a subroutine
 
 print_char:
     mov ah, 0eh
