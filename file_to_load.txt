@@ -1,0 +1,1 @@
+I will attach this file at the boot.bin file for it to simulate something on Hard Disk
