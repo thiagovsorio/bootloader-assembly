@@ -8,10 +8,10 @@ _start:
 times 33 db 0 ; filling the future bios parameter block with zeros
 
 start:
-    jmp 0x7c0:step2 ; skiping bios parameter block
-    ; updates the code segment to 0x7c0, where our step2 starts
+    jmp 0x7c0:run ; skiping bios parameter block
+    ; updates the code segment to 0x7c0, where our run starts
 
-step2:
+run:
     cli ; Clear Interrupts
     mov ax, 0x7c0
     mov ds, ax
@@ -22,8 +22,25 @@ step2:
     mov sp, 0x7c00
     sti ; Enables Interrupts
 
-    mov si, message ; message is a label
-    call print ; and when you reference a label you get the address
+
+    mov ah, 2 ; READ SECTOR COMMAND
+    mov al, 1 ; READ ONE SECTOR
+    mov ch, 0 ; Cylinder lowe eight bits
+    mov cl, 2 ; Read Sector two
+    mov dh, 0 ; Head number
+    mov bx, buffer
+
+    int 0x13
+    jc error
+
+    mov si, buffer
+    call print
+
+    jmp $
+
+error:
+    mov si, error_message
+    call print
     jmp $
 
 print:
@@ -42,6 +59,9 @@ print_char:
     int 0x10
     ret
 
-message: db 13,10,13,10,"Booting on my friend's computer, so hopefully it didn't catch fire",13,10, 0
+error_message: db 'Failed to load sector', 0
+
 times 510-($ - $$) db 0
 dw 0xAA55
+
+buffer:
