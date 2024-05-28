@@ -4,3 +4,5 @@ all: assemble-it
 
 assemble-it:
 	nasm -f bin ./boot.asm -o boot.bin
+qemu:
+	qemu-system-x86_64 -hda ./boot.bin
